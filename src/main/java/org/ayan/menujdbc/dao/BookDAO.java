@@ -1,6 +1,7 @@
 package org.ayan.menujdbc.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +57,56 @@ public class BookDAO {
 		String sql = "DELETE FROM BOOK WHERE BOOKID = :bookid";
 		params.addValue("bookid", bookid);
 		return jdbcTemplate.update(sql, params);
+	}
+
+	public void sortByTitle() {
+		List<Book> books;
+		String sql = "SELECT * FROM BOOK";
+		
+		books = jdbcTemplate.query(sql, new BookRowMapper());
+		
+		LOG.info("Before sorting...");
+		
+		for (Book book : books) {
+			LOG.info("Found book :: " + book.getTitle() + " Price :: " + book.getPrice() + " Volume :: "
+					+ book.getVolume() + " Publish Date :: " + book.getPublishDate());
+		}
+		
+		List<Book> sortedByTitle = books.stream().sorted((o1, o2)->o1.getTitle().compareTo(o2.getTitle())).collect(Collectors.toList());
+		
+		LOG.info("After sorting...");
+		
+		for (Book book : sortedByTitle) {
+			LOG.info("Found book :: " + book.getTitle() + " Price :: " + book.getPrice() + " Volume :: "
+					+ book.getVolume() + " Publish Date :: " + book.getPublishDate());
+		}
+		
+		
+	}
+
+	public void sortByDate() {
+		List<Book> books;
+		String sql = "SELECT * FROM BOOK";
+		
+		books = jdbcTemplate.query(sql, new BookRowMapper());
+		
+		LOG.info("Before sorting...");
+		
+		for (Book book : books) {
+			LOG.info("Found book :: " + book.getTitle() + " Price :: " + book.getPrice() + " Volume :: "
+					+ book.getVolume() + " Publish Date :: " + book.getPublishDate());
+		}
+		
+		List<Book> sortedByDate = books.stream().sorted((o1, o2)->o1.getPublishDate().compareTo(o2.getPublishDate())).collect(Collectors.toList());
+		
+		LOG.info("After sorting...");
+		
+		for (Book book : sortedByDate) {
+			LOG.info("Found book :: " + book.getTitle() + " Price :: " + book.getPrice() + " Volume :: "
+					+ book.getVolume() + " Publish Date :: " + book.getPublishDate());
+		}
+		
+		
 	}
 	
 }

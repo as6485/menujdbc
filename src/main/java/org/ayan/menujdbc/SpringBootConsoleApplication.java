@@ -41,6 +41,8 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
 			LOG.info("1. Add Book");
 			LOG.info("2. Search Book");
 			LOG.info("3. Delete Book");
+			LOG.info("4. Sort by title");
+			LOG.info("4. Sort by Date");
 			LOG.info("9. Exit Application");
 			LOG.info("Enter option :: ");
 
@@ -59,6 +61,12 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
 				deleteBook(input);
 				LOG.info("Deleted book");
 				break;
+			case "4":
+				sortByTitle();
+				break;
+			case "5":
+				sortByDate();
+				break;	
 			case "9":
 				LOG.info("Exiting application");
 				flag = false;
@@ -73,6 +81,16 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
 
 		input.close();
 
+	}
+
+	private void sortByDate() {
+		bookDAO.sortByDate();
+		
+	}
+
+	private void sortByTitle() {
+		bookDAO.sortByTitle();
+		
 	}
 
 	private void deleteBook(Scanner input) {
